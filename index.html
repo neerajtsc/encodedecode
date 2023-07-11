@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Title Page</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            .col-center{
+                margin:0 auto;
+            }
+        </style>
+    </head>
+    <body style="margin: 20px;">
+        <h1 class="text-center">Encode/Decode</h1>
+        <button class="btn btn-lg btn-danger" onclick="window.location = window.location">Reload</button>
+        <hr>
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <div class="panel-title">Encode Text</div>
+              </div>
+              <div class="panel panel-body">
+                <div class="mb-3">
+                  <input type="checkbox" class="form-check-input" id="isEncodePayloadObject" checked>
+                  <label class="form-check-label" for="isEncodePayloadObject" >Is Object</label>
+                  <textarea name="encodePayload" id="encodePayload" class="form-control" rows="5" onchange="encodeData()"></textarea>
+                </div>
+              </div>
+              <div class="panel panel-footer">
+                <div class="mb-3">
+                  <label for="encodeOutput" class="form-label">Encoded Data:</label>
+                  <textarea name="encodeOutput" id="encodeOutput" class="form-control" rows="5" readonly></textarea>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="panel-title">Decode Text</div>
+              </div>
+              <div class="panel panel-body">
+                <div class="mb-3">
+                  <input type="checkbox" class="form-check-input" id="isDecodePayloadObject" checked>
+                  <label class="form-check-label" for="isDecodePayloadObject" >Is Object</label>
+                  <textarea name="decodePayload" id="decodePayload" class="form-control" rows="5" onchange="decodeData()"></textarea>
+                </div>
+              </div>
+              <div class="panel panel-footer">
+                <div class="mb-3">
+                  <label for="decodeOutput" class="form-label">Decoded Data:</label>
+                  <textarea name="decodeOutput" id="decodeOutput" class="form-control" rows="5" readonly></textarea>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <script>
+            function encodeData(){
+                let data = $("#encodePayload").val().trim() || "";
+                if(data.length > 0){
+                  let isDataObject = $("#isEncodePayloadObject").is(":checked");
+                  if(isDataObject){
+                      data = JSON.stringify(JSON.parse(data));
+                  }
+                  let encodeObj = Base64.btoa(encodeURI(data));
+                  $("#encodeOutput").val(encodeObj);
+                }
+
+
+            }
+            function decodeData(){
+                let data = $("#decodePayload").val().trim() || "";
+                if(data.length > 0){
+                  let isDataObject = $("#isDecodePayloadObject").is(":checked");
+                  let decodeObj = decodeURI(Base64.atob(data));
+                  if(isDataObject){
+                      decodeObj = decodeObj;
+                  }
+                  $("#decodeOutput").val(decodeObj);
+              }
+            }
+          </script>
+    </body>
+</html>
